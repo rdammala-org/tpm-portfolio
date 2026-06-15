@@ -45,3 +45,31 @@ document.querySelectorAll('.section').forEach(section => {
     section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     observer.observe(section);
 });
+
+// Theme toggle: persist choice in localStorage and apply on load
+(function(){
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme') || 'light';
+    if (saved === 'dark') {
+        html.setAttribute('data-theme','dark');
+        if (themeToggle) themeToggle.textContent = '☀️';
+    } else {
+        html.removeAttribute('data-theme');
+        if (themeToggle) themeToggle.textContent = '🌙';
+    }
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme','light');
+                themeToggle.textContent = '🌙';
+            } else {
+                html.setAttribute('data-theme','dark');
+                localStorage.setItem('theme','dark');
+                themeToggle.textContent = '☀️';
+            }
+        });
+    }
+})();

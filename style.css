@@ -14,6 +14,22 @@
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
+/* Dark theme variables */
+[data-theme="dark"] {
+    --primary: #0f62fe;
+    --primary-dark: #0043ce;
+    --accent: #00d4aa;
+    --bg: #0d1117;
+    --bg-alt: #161b22;
+    --surface: #0f1720;
+    --text: #e6eef8;
+    --text-muted: #8b949e;
+    --border: #262b31;
+    --gradient: linear-gradient(135deg, #0f62fe, #00d4aa);
+    --shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+
+
 /* ===== Reset & Base ===== */
 *, *::before, *::after {
     margin: 0;
@@ -170,6 +186,35 @@ body {
     border-color: var(--primary);
     color: var(--primary);
 }
+
+/* Theme toggle & contact card */
+.theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.45rem 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.theme-toggle:hover { border-color: var(--primary); transform: scale(1.05); }
+
+.contact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    display: inline-block;
+    box-shadow: var(--shadow);
+}
+
+.contact-links { display: flex; flex-direction: row; gap: 1.25rem; align-items: center; justify-content: center; }
+
+@media (max-width: 768px) {
+    .contact-links { flex-direction: column; }
+}
+
 
 /* ===== Program Board ===== */
 .program-board {
