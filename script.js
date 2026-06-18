@@ -46,29 +46,47 @@ document.querySelectorAll('.section').forEach(section => {
     observer.observe(section);
 });
 
-// Theme toggle: persist choice in localStorage and apply on load
+// Theme toggle: use system preference on first load, preserve manual override
 (function(){
     const themeToggle = document.getElementById('themeToggle');
     const html = document.documentElement;
-    const saved = localStorage.getItem('theme') || 'light';
-    if (saved === 'dark') {
-        html.setAttribute('data-theme','dark');
-        if (themeToggle) themeToggle.textContent = '☀️';
-    } else {
-        html.removeAttribute('data-theme');
-        if (themeToggle) themeToggle.textContent = '🌙';
+    const mediaQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+    function applyTheme(theme, persist = false) {
+        if (theme === 'dark') {
+            html.setAttribute('data-theme', 'dark');
+            if (themeToggle) themeToggle.textContent = '☀️';
+        } else {
+            html.removeAttribute('data-theme');
+            if (themeToggle) themeToggle.textContent = '🌙';
+        }
+
+        if (persist) {
+            localStorage.setItem('theme', theme);
+        }
     }
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+        applyTheme(savedTheme);
+    } else {
+        const systemTheme = mediaQuery && mediaQuery.matches ? 'dark' : 'light';
+        applyTheme(systemTheme);
+    }
+
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
-            const isDark = html.getAttribute('data-theme') === 'dark';
-            if (isDark) {
-                html.removeAttribute('data-theme');
-                localStorage.setItem('theme','light');
-                themeToggle.textContent = '🌙';
-            } else {
-                html.setAttribute('data-theme','dark');
-                localStorage.setItem('theme','dark');
-                themeToggle.textContent = '☀️';
+            const currentTheme = html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+            const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(nextTheme, true);
+        });
+    }
+
+    if (mediaQuery) {
+        mediaQuery.addEventListener('change', (event) => {
+            const hasManualOverride = localStorage.getItem('theme');
+            if (!hasManualOverride) {
+                applyTheme(event.matches ? 'dark' : 'light');
             }
         });
     }
