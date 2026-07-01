@@ -4,7 +4,7 @@ A clean, professional portfolio website showcasing my experience as a Technical 
 
 ## 🚀 Live Site
 
-[https://rdammala.github.io/tpm-portfolio](https://rdammala.github.io/tpm-portfolio)
+[https://rdammala-org.github.io/tpm-portfolio](https://rdammala-org.github.io/tpm-portfolio)
 
 ## 📁 Structure
 
